@@ -1,3 +1,4 @@
+import { QuestionService } from './services/question.service';
 // Angular
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { JwtModule } from '@auth0/angular-jwt';
@@ -13,6 +14,9 @@ import { AuthGuardAdmin } from './services/auth-guard-admin.service';
 // Components
 import { AppComponent } from './app.component';
 import { CatsComponent } from './cats/cats.component';
+
+import { QuestionsComponent } from './questions/questions.component';
+
 import { AddCatFormComponent } from './add-cat-form/add-cat-form.component';
 import { AboutComponent } from './about/about.component';
 import { RegisterComponent } from './register/register.component';
@@ -33,7 +37,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
     LogoutComponent,
     AccountComponent,
     AdminComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    QuestionsComponent
   ],
   imports: [
     AppRoutingModule,
@@ -50,7 +55,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
     AuthGuardLogin,
     AuthGuardAdmin,
     CatService,
-    UserService
+    UserService,
+    QuestionService
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]

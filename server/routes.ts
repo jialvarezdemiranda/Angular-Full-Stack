@@ -2,11 +2,13 @@ import { Router, Application } from 'express';
 
 import CatCtrl from './controllers/cat';
 import UserCtrl from './controllers/user';
+import QuestionCtrl from './controllers/question';
 
 const setRoutes = (app: Application): void => {
   const router = Router();
   const catCtrl = new CatCtrl();
   const userCtrl = new UserCtrl();
+  const questionCtrl = new QuestionCtrl();
 
   // Cats
   router.route('/cats').get(catCtrl.getAll);
@@ -24,6 +26,14 @@ const setRoutes = (app: Application): void => {
   router.route('/user/:id').get(userCtrl.get);
   router.route('/user/:id').put(userCtrl.update);
   router.route('/user/:id').delete(userCtrl.delete);
+
+   // Questions
+   router.route('/questions').get(questionCtrl.getAll);
+   router.route('/questions/count').get(questionCtrl.count);
+   router.route('/question').post(questionCtrl.insert);
+   router.route('/question/:id').get(questionCtrl.get);
+   router.route('/question/:id').put(questionCtrl.update);
+   router.route('/question/:id').delete(questionCtrl.delete);
 
   // Apply the routes to our application with the prefix /api
   app.use('/api', router);
