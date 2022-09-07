@@ -25,7 +25,7 @@ const routes: Routes = [
   { path: 'account', component: AccountComponent, canActivate: [AuthGuardLogin] },
   { path: 'admin', component: AdminComponent, canActivate: [AuthGuardAdmin] },
   { path: 'notfound', component: NotFoundComponent },
-  { path: 'questions', component: QuestionsComponent },
+  { path: 'questions/:id', component: QuestionsComponent },
   { path: '**', redirectTo: '/notfound' },
 ];
 

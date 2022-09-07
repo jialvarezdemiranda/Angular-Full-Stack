@@ -21,6 +21,15 @@ class QuestionCtrl extends BaseCtrl {
       return res.status(400).json({ error: err.message });
     }
   };
+
+  override delete = async (req: Request, res: Response) => {
+    try {
+      await this.model.findOneAndRemove({ questionID: req.params.id });
+      return res.sendStatus(200);
+    } catch (err: any) {
+      return res.status(400).json({ error: err.message });
+    }
+  };
 }
 
 export default QuestionCtrl;

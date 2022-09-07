@@ -3,7 +3,7 @@ import { Document, model, Schema } from 'mongoose';
 const questionSchema = new Schema<IQuestion>({
   question: String,
   questionID: Number,
-  answers:[{
+  options:[{
     text : String,
     nextID : Number
      }],
@@ -14,7 +14,7 @@ const questionSchema = new Schema<IQuestion>({
 interface IQuestion extends Document {
   question: string;
   questionID: number;
-  answers:{ text: string, nextid: number }[];
+  options:{ text: string, nextid: number }[];
   img: string;
 }
 

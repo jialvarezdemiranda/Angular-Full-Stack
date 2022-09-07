@@ -2,7 +2,7 @@ export class Question {
     _id?: string;
     question?: string;
     questionID?: number;
-    answers?:{
+    options?:{
       text : string;
       nextID : number
        }[];

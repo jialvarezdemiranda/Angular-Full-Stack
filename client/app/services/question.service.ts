@@ -21,8 +21,8 @@ export class QuestionService {
     return this.http.post<Question>('/api/question', question);
   }
 
-  getQuestion(question: Question): Observable<Question> {
-    return this.http.get<Question>(`/api/question/${question._id}`);
+  getQuestion(questionID: number|undefined): Observable<Question> {
+    return this.http.get<Question>(`/api/question/${questionID}`);
   }
 
   editQuestion(question: Question): Observable<any> {

@@ -1,7 +1,28 @@
-<h1>Questions<h1>
+<h4>{{'Question Nº'+ questionID}}</h4>
+
+<div class="text-center">
+  <img src="{{img}}" class="rounded" alt="Image">
+</div>
 <br>
-<ul>
-    <li *ngFor="let question of questions">
-        {{'question: ' + question.question + ', ID: ' + question.questionID}}
-    </li>
-</ul>
+<p>{{'text: ' + text}}</p>
+<br> 
+{{'img: ' + img}}
+<br><br><br> 
+<h5>Options:</h5>
+<p *ngFor="let option of options">
+    
+    <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="setAction(option)">
+        {{option.text}}
+      </button>
+    <br>
+    {{'Next question: '+ option.nextID}} 
+</p>
+
+<br>
+Selected Action: {{action}} <br>
+next: {{next}} <br><br>
+
+<button type="button" class="btn btn-primary btn-lg" [routerLink]="['/questions', next]">Proceed</button>
+
+
+
