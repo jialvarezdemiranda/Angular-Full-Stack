@@ -5,6 +5,8 @@ import { QuestionService } from '../services/question.service';
 import { ToastComponent } from '../shared/toast/toast.component';
 import { Question } from '../shared/models/question.model';
 import { ActivatedRoute } from '@angular/router';
+import { DeviceDetectorService } from 'ngx-device-detector';
+import { DeviceInfo } from 'ngx-device-detector/public-api';
 
 @Component({
   selector: 'app-questions',
@@ -15,8 +17,6 @@ export class QuestionsComponent implements OnInit {
 
   question?:Observable<Question>;
   questions: Question[] = [];
-  isLoading = true;
-  isEditing = false;
   questionID?:number;
   text?:string;
   img?:string;
@@ -26,12 +26,17 @@ export class QuestionsComponent implements OnInit {
      }[];
   action = "";
   next=-1;
+  deviceInfo:DeviceInfo;
 
   constructor(private questionService: QuestionService,
-              public toast: ToastComponent, private route:ActivatedRoute) { }
+              public toast: ToastComponent, private route:ActivatedRoute, 
+              private deviceService: DeviceDetectorService) { 
+                this.deviceInfo = this.deviceService.getDeviceInfo();
+              }
 
   ngOnInit(): void {
-    this.getQuestions();
+    //this.deviceInfo = this.deviceService.getDeviceInfo();
+    //this.getQuestions();
 
     this.route.params.subscribe( params => 
       {
@@ -47,13 +52,7 @@ export class QuestionsComponent implements OnInit {
     
   }
 
-  getQuestions(): void {
-    this.questionService.getQuestions().subscribe({
-      next: data => this.questions = data,
-      error: error => console.log(error),
-      complete: () => this.isLoading = false
-    });
-  }
+
   setAction(optionSelected:any):void{
     this.action=optionSelected.text;
     this.next=optionSelected.nextID;
