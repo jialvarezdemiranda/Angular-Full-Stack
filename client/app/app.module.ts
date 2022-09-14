@@ -25,6 +25,7 @@ import { LogoutComponent } from './logout/logout.component';
 import { AccountComponent } from './account/account.component';
 import { AdminComponent } from './admin/admin.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { AnswerService } from './services/answer.service';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
     AuthGuardAdmin,
     CatService,
     UserService,
-    QuestionService
+    QuestionService,
+    AnswerService
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]

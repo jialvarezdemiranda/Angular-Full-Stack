@@ -4,6 +4,7 @@ const questionSchema = new Schema<IQuestion>({
   question: String,
   questionID: Number,
   options:[{
+    optionID:Number,
     text : String,
     nextID : Number
      }],
@@ -14,7 +15,7 @@ const questionSchema = new Schema<IQuestion>({
 interface IQuestion extends Document {
   question: string;
   questionID: number;
-  options:{ text: string, nextid: number }[];
+  options:{ optionID:number,text: string, nextid: number }[];
   img: string;
 }
 

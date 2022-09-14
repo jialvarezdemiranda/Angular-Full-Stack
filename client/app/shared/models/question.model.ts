@@ -3,6 +3,7 @@ export class Question {
     question?: string;
     questionID?: number;
     options?:{
+      optionID:number;
       text : string;
       nextID : number
        }[];

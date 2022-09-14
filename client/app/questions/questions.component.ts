@@ -1,3 +1,4 @@
+import { Answer } from './../shared/models/answer.model';
 import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 
@@ -5,8 +6,9 @@ import { QuestionService } from '../services/question.service';
 import { ToastComponent } from '../shared/toast/toast.component';
 import { Question } from '../shared/models/question.model';
 import { ActivatedRoute } from '@angular/router';
-import { DeviceDetectorService } from 'ngx-device-detector';
-import { DeviceInfo } from 'ngx-device-detector/public-api';
+
+import { v4 as uuidv4 } from 'uuid';
+import { AnswerService } from '../services/answer.service';
 
 @Component({
   selector: 'app-questions',
@@ -17,31 +19,32 @@ export class QuestionsComponent implements OnInit {
 
   question?:Observable<Question>;
   questions: Question[] = [];
-  questionID?:number;
+  questionID:number=-1;
   text?:string;
   img?:string;
   options?:{
     text : string;
     nextID : number
      }[];
-  action = "";
-  next=-1;
-  deviceInfo:DeviceInfo;
+  optionSelected={optionID:-1,text:'', nextID:-1};
+  deviceID?:string;
+  optionNotChosen=false;
 
   constructor(private questionService: QuestionService,
               public toast: ToastComponent, private route:ActivatedRoute, 
-              private deviceService: DeviceDetectorService) { 
-                this.deviceInfo = this.deviceService.getDeviceInfo();
+              private answerService: AnswerService) { 
+                //this.deviceInfo = this.deviceService.getDeviceInfo();
               }
 
   ngOnInit(): void {
-    //this.deviceInfo = this.deviceService.getDeviceInfo();
-    //this.getQuestions();
 
+    this.deviceID=this.getDeviceId()
     this.route.params.subscribe( params => 
       {
+        this.optionNotChosen=false;
         this.questionID = params["id"];
-        this.question= this.questionService.getQuestion(this.questionID);
+        this.optionSelected.nextID=this.questionID;
+        this.question= this.questionService.getQuestion(this.questionID, this.deviceID);
         this.question.subscribe((x) => {
           this.text=x.question;
           this.img=x.img;
@@ -53,9 +56,49 @@ export class QuestionsComponent implements OnInit {
   }
 
 
-  setAction(optionSelected:any):void{
-    this.action=optionSelected.text;
-    this.next=optionSelected.nextID;
+   setAction(optionSelected:any):void{
+    this.optionSelected=optionSelected;
+  }
+
+  private generateDeviceID(): string {
+    let deviceID=uuidv4();
+    return deviceID
+  }
+
+  private getDeviceId() {
+    let deviceId = localStorage.getItem('deviceId')
+    if(!deviceId) {
+       deviceId = this.generateDeviceID()
+       localStorage.setItem('deviceId', deviceId)
+    }
+    return deviceId
+  }
+
+  saveAnswer(optionSelected:{optionID:number, nextID:number},
+            questionID:number|undefined,deviceID:string|undefined){
+
+    if(optionSelected.nextID!=questionID){
+      console.log('Se esta creando el objeto');
+      let answer:Answer= {
+        "deviceID":deviceID,
+        "questionID":questionID,
+        "optionID":optionSelected.optionID,
+        "nextID":optionSelected.nextID,
+        "time": Date()      
+      }
+      this.answerService.addAnswer(answer).subscribe(
+        response => {
+          console.log(response);
+        }
+
+
+      );
+      console.log('Se ha enviado al service');
+    }
+    else{
+      this.optionNotChosen=true;
+    }
+    
   }
 
 }

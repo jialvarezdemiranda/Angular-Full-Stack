@@ -1,7 +1,4 @@
 
-<h6>Device type: {{deviceInfo.deviceType}}</h6>
-<h6>User agent: {{deviceInfo.userAgent}}</h6>
-<h6>Device: {{deviceInfo.device}}</h6>
 <h4>{{'Question Nº'+ questionID}}</h4>
 
 <div class="text-center">
@@ -23,10 +20,11 @@
 </p>
 
 <br>
-Selected Action: {{action}} <br>
-next: {{next}} <br><br>
+Selected Action: {{optionSelected.text}} <br>
+next: {{optionSelected.nextID}} <br><br>
 
-<button type="button" class="btn btn-primary btn-lg" [routerLink]="['/questions', next]">Proceed</button>
+<div *ngIf="optionNotChosen"><h6>Please, select one action before proceeding.</h6> <br></div>
+<button type="button" class="btn btn-primary btn-lg" [routerLink]="['/questions', optionSelected.nextID]" (click)="saveAnswer(optionSelected,questionID,deviceID)">Proceed</button>
 
 
 
