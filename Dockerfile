@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm ci
 COPY . .
-ENV MONGODB_URI mongodb://mongo:27017/angularfullstack
+ENV MONGODB_URI mongodb://mongoadmin:secret@victorupm.duckdns.org:8817/stardustgameDB?serverSelectionTimeoutMS=5000&connectTimeoutMS=10000&authSource=admin&authMechanism=SCRAM-SHA-256
 #RUN npm run builddev
 RUN npm run build
 EXPOSE 3000
