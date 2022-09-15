@@ -10,14 +10,17 @@
 {{'img: ' + img}}
 <br><br><br> 
 <h5>Options:</h5>
-<p *ngFor="let option of options">
-    
-    <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="setAction(option)">
-        {{option.text}}
-      </button>
-    <br>
+<div *ngFor="let option of options">
+
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault + option.optionID" (click)="setAction(option)">
+    <label class="form-check-label" for="flexRadioDefault + option.optionID">
+      {{option.text}}
+    </label>
+  </div>
     {{'Next question: '+ option.nextID}} 
-</p>
+    <br><br>
+</div>
 
 <br>
 Selected Action: {{optionSelected.text}} <br>

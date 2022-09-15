@@ -58,6 +58,7 @@ export class QuestionsComponent implements OnInit {
 
    setAction(optionSelected:any):void{
     this.optionSelected=optionSelected;
+    this.optionNotChosen=false;
   }
 
   private generateDeviceID(): string {
