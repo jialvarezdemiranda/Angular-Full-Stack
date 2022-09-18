@@ -6,4 +6,5 @@ services:
     build: .
     ports:
       - "8830:3000"
-    
+    links:
+    - stardustgameDB
