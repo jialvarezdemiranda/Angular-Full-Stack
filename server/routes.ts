@@ -41,7 +41,7 @@ const setRoutes = (app: Application): void => {
   router.route('/answers').get(answerCtrl.getAll);
   router.route('/answers/count').get(answerCtrl.count);
   router.route('/answer').post(answerCtrl.insert);
-  router.route('/answer/:id').get(answerCtrl.get);
+  router.route('/answer/:id').get(answerCtrl.getLastAnswer);
   router.route('/answer/:id').put(answerCtrl.update);
   router.route('/answer/:id').delete(answerCtrl.delete);
 

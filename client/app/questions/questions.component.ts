@@ -7,7 +7,6 @@ import { ToastComponent } from '../shared/toast/toast.component';
 import { Question } from '../shared/models/question.model';
 import { ActivatedRoute } from '@angular/router';
 
-import { v4 as uuidv4 } from 'uuid';
 import { AnswerService } from '../services/answer.service';
 
 @Component({
@@ -27,13 +26,12 @@ export class QuestionsComponent implements OnInit {
     nextID : number
      }[];
   optionSelected={optionID:-1,text:'', nextID:-1};
-  deviceID?:string;
+  deviceID:string="";
   optionNotChosen=false;
 
   constructor(private questionService: QuestionService,
               public toast: ToastComponent, private route:ActivatedRoute, 
               private answerService: AnswerService) { 
-                //this.deviceInfo = this.deviceService.getDeviceInfo();
               }
 
   ngOnInit(): void {
@@ -44,7 +42,7 @@ export class QuestionsComponent implements OnInit {
         this.optionNotChosen=false;
         this.questionID = params["id"];
         this.optionSelected.nextID=this.questionID;
-        this.question= this.questionService.getQuestion(this.questionID, this.deviceID);
+        this.question= this.questionService.getQuestion(this.questionID);
         this.question.subscribe((x) => {
           this.text=x.question;
           this.img=x.img;
@@ -61,16 +59,11 @@ export class QuestionsComponent implements OnInit {
     this.optionNotChosen=false;
   }
 
-  private generateDeviceID(): string {
-    let deviceID=uuidv4();
-    return deviceID
-  }
-
   private getDeviceId() {
     let deviceId = localStorage.getItem('deviceId')
+
     if(!deviceId) {
-       deviceId = this.generateDeviceID()
-       localStorage.setItem('deviceId', deviceId)
+       deviceId="";
     }
     return deviceId
   }

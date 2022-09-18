@@ -21,13 +21,8 @@ export class AnswerService {
     return this.http.post<Answer>('/api/answer', answer);
   }
 
-  getAnswer(answerID: number|undefined, deviceID:string|undefined): Observable<Answer> {
-    // La ? indica que si deviceID es true, lo que sería si no es undefined, define options como {params: ....}
-    // mientras que si es false, hace lo que pone despues de los : del final, que es dejar el options como un objeto vacío
-    const options = deviceID ?
-    { params: new HttpParams().set('deviceID', deviceID) } : {};
-    
-    return this.http.get<Answer>(`/api/answer/${answerID}`, options);
+  getLastAnswer(deviceID:string|undefined): Observable<Answer> { 
+    return this.http.get<Answer>(`/api/answer/${deviceID}`);
   }
 
   editAnswer(answer: Answer): Observable<any> {
