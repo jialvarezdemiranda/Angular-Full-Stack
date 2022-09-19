@@ -78,7 +78,7 @@ export class QuestionsComponent implements OnInit {
         "questionID":questionID,
         "optionID":optionSelected.optionID,
         "nextID":optionSelected.nextID,
-        "time": Date()      
+        "time": Date.now()      
       }
       this.answerService.addAnswer(answer).subscribe(
         response => {

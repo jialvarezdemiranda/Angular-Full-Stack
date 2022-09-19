@@ -4,5 +4,5 @@ export class Answer {
     questionID?: number;
     optionID?: number;
     nextID?:number;
-    time?:string;
+    time?:number;
   }
