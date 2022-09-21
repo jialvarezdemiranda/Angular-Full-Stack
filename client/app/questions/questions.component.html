@@ -5,11 +5,10 @@
   <img src="{{img}}" class="rounded" alt="Image">
 </div>
 <br>
-<p>{{'text: ' + text}}</p>
+<p>{{text}}</p>
 <br> 
-{{'img: ' + img}}
 <br><br><br> 
-<h5>Options:</h5>
+<h5>What are you going to do?</h5>
 <div *ngFor="let option of options">
 
   <div class="form-check">
@@ -23,8 +22,6 @@
 </div>
 
 <br>
-Selected Action: {{optionSelected.text}} <br>
-next: {{optionSelected.nextID}} <br><br>
 
 <div *ngIf="optionNotChosen"><h6>Please, select one action before proceeding.</h6> <br></div>
 <button type="button" class="btn btn-primary btn-lg" [routerLink]="['/questions',optionSelected.nextID]" (click)="saveAnswer(optionSelected,questionID,deviceID)">Proceed</button>
