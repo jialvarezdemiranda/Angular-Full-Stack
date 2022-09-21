@@ -27,7 +27,7 @@ Selected Action: {{optionSelected.text}} <br>
 next: {{optionSelected.nextID}} <br><br>
 
 <div *ngIf="optionNotChosen"><h6>Please, select one action before proceeding.</h6> <br></div>
-<button type="button" class="btn btn-primary btn-lg" [routerLink]="['/waiting']" (click)="saveAnswer(optionSelected,questionID,deviceID)">Proceed</button>
+<button type="button" class="btn btn-primary btn-lg" [routerLink]="['/questions',optionSelected.nextID]" (click)="saveAnswer(optionSelected,questionID,deviceID)">Proceed</button>
 
 
 

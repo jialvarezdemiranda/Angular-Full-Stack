@@ -6,3 +6,12 @@ services:
     build: .
     ports:
       - "8830:3000"
+    links:
+      - mongo
+  mongo:
+    container_name: mongo
+    image: mongo
+    volumes:
+      - ./dataDB:/data/db
+    ports:
+      - "8817:27017"
