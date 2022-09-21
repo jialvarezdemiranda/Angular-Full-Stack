@@ -15,6 +15,7 @@ import { AdminComponent } from './admin/admin.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 
 import { QuestionsComponent } from './questions/questions.component';
+import { WaitingComponent } from './waiting/waiting.component';
 
 const routes: Routes = [
   { path: '', component: AboutComponent },
@@ -26,6 +27,7 @@ const routes: Routes = [
   { path: 'admin', component: AdminComponent, canActivate: [AuthGuardAdmin] },
   { path: 'notfound', component: NotFoundComponent },
   { path: 'questions/:id', component: QuestionsComponent },
+  { path: 'waiting', component: WaitingComponent },
   { path: '**', redirectTo: '/notfound' },
 ];
 

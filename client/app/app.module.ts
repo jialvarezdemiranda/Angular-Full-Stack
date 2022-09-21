@@ -1,3 +1,4 @@
+import { WaitingComponent } from './waiting/waiting.component';
 import { QuestionService } from './services/question.service';
 // Angular
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -39,7 +40,8 @@ import { AnswerService } from './services/answer.service';
     AccountComponent,
     AdminComponent,
     NotFoundComponent,
-    QuestionsComponent
+    QuestionsComponent,
+    WaitingComponent,
   ],
   imports: [
     AppRoutingModule,
