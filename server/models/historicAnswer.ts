@@ -1,6 +1,6 @@
 import { Document, model, Schema } from 'mongoose';
 
-const answerSchema = new Schema<IAnswer>({
+const historicAnswerSchema = new Schema<IAnswer>({
     expireAt: Date,
     deviceID: String,
     questionID: Number,
@@ -19,6 +19,6 @@ interface IAnswer extends Document {
 }
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-const Answer = model<IAnswer>('Answer', answerSchema);
+const HistoricAnswer = model<IAnswer>('HistoricAnswer', historicAnswerSchema);
 
-export default Answer;
+export default HistoricAnswer;

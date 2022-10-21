@@ -4,6 +4,7 @@ import CatCtrl from './controllers/cat';
 import UserCtrl from './controllers/user';
 import QuestionCtrl from './controllers/question';
 import AnswerCtrl from './controllers/answer';
+import HistoricAnswerCtrl from './controllers/historicAnswer';
 
 const setRoutes = (app: Application): void => {
   const router = Router();
@@ -11,6 +12,7 @@ const setRoutes = (app: Application): void => {
   const userCtrl = new UserCtrl();
   const questionCtrl = new QuestionCtrl();
   const answerCtrl = new AnswerCtrl();
+  const historicAnswerCtrl = new HistoricAnswerCtrl();
 
   // Cats
   router.route('/cats').get(catCtrl.getAll);
@@ -44,6 +46,14 @@ const setRoutes = (app: Application): void => {
   router.route('/answer/:id').get(answerCtrl.getLastAnswer);
   router.route('/answer/:id').put(answerCtrl.update);
   router.route('/answer/:id').delete(answerCtrl.delete);
+
+  // historicAnswer
+  router.route('/historicAnswers').get(historicAnswerCtrl.getAll);
+  router.route('/historicAnswers/count').get(historicAnswerCtrl.count);
+  router.route('/historicAnswer').post(historicAnswerCtrl.insert);
+  router.route('/historicAnswer/:id').get(historicAnswerCtrl.get);
+  router.route('/historicAnswer/:id').put(historicAnswerCtrl.update);
+  router.route('/historicAnswer/:id').delete(historicAnswerCtrl.delete);
 
   // Apply the routes to our application with the prefix /api
   app.use('/api', router);

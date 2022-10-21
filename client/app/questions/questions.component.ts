@@ -8,6 +8,7 @@ import { Question } from '../shared/models/question.model';
 import { ActivatedRoute } from '@angular/router';
 
 import { AnswerService } from '../services/answer.service';
+import { HistoricAnswerService } from '../services/historicAnswer.service';
 
 @Component({
   selector: 'app-questions',
@@ -31,7 +32,8 @@ export class QuestionsComponent implements OnInit {
 
   constructor(private questionService: QuestionService,
               public toast: ToastComponent, private route:ActivatedRoute, 
-              private answerService: AnswerService) { 
+              private answerService: AnswerService,
+              private historicAnswerService: HistoricAnswerService) { 
               }
 
   ngOnInit(): void {
@@ -71,9 +73,12 @@ export class QuestionsComponent implements OnInit {
   saveAnswer(optionSelected:{optionID:number, nextID:number},
             questionID:number|undefined,deviceID:string|undefined){
 
+    const tomorrow = new Date();
+    tomorrow.setHours(24, 0, 0, 0);
+              
     if(optionSelected.nextID!=questionID){
-      console.log('Se esta creando el objeto');
       let answer:Answer= {
+        "expireAt":tomorrow,
         "deviceID":deviceID,
         "questionID":questionID,
         "optionID":optionSelected.optionID,
@@ -82,12 +87,14 @@ export class QuestionsComponent implements OnInit {
       }
       this.answerService.addAnswer(answer).subscribe(
         response => {
-          console.log(response);
         }
-
-
       );
-      console.log('Se ha enviado al service');
+
+      this.historicAnswerService.addAnswer(answer).subscribe(
+        response => {
+          console.log('Response saved');
+        }
+      );
     }
     else{
       this.optionNotChosen=true;

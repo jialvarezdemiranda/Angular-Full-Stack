@@ -27,6 +27,7 @@ import { AccountComponent } from './account/account.component';
 import { AdminComponent } from './admin/admin.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AnswerService } from './services/answer.service';
+import { HistoricAnswerService } from './services/historicAnswer.service';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { AnswerService } from './services/answer.service';
     CatService,
     UserService,
     QuestionService,
-    AnswerService
+    AnswerService,
+    HistoricAnswerService
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]

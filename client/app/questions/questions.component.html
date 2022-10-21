@@ -1,13 +1,12 @@
 
-<h4>{{'Question Nº'+ questionID}}</h4>
+<h4>{{'Situation Nº'+ questionID}}</h4>
 
 <div class="text-center">
   <img src="{{img}}" class="rounded" alt="Image">
 </div>
 <br>
 <p>{{text}}</p>
-<br> 
-<br><br><br> 
+<br>  
 <h5>What are you going to do?</h5>
 <div *ngFor="let option of options">
 
@@ -21,7 +20,6 @@
     <br><br>
 </div>
 
-<br>
 
 <div *ngIf="optionNotChosen"><h6>Please, select one action before proceeding.</h6> <br></div>
 <button type="button" class="btn btn-primary btn-lg" [routerLink]="['/questions',optionSelected.nextID]" (click)="saveAnswer(optionSelected,questionID,deviceID)">Proceed</button>
