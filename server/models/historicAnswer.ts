@@ -6,8 +6,13 @@ const historicAnswerSchema = new Schema<IAnswer>({
     questionID: Number,
     optionID: Number,
     nextID:Number,
-    time:Number
-});
+    time:Number,
+    day:Number,
+    socialProb:[Number],
+    currentColProb:Number,
+    civilProtec:String,
+}
+);
 
 interface IAnswer extends Document {
     expireAt: Date,
@@ -15,7 +20,11 @@ interface IAnswer extends Document {
     questionID: number,
     optionID: number,
     nextID:number,
-    time:number
+    time:number,
+    day:number;
+    socialProb:number[],
+    currentColProb:number,
+    civilProtec:string,
 }
 
 // eslint-disable-next-line @typescript-eslint/naming-convention

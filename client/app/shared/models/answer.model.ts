@@ -9,4 +9,5 @@ export class Answer {
     day?:number;
     socialProb?:number[];
     currentColProb?:number;
+    civilProtec?:string;
   }

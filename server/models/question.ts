@@ -12,6 +12,7 @@ const questionSchema = new Schema<IQuestion>({
     threshold: String,
     socialProb:[Number],
     efficacy:String,
+    civilProtec:String,
 
      }],
    img: String,
@@ -25,6 +26,7 @@ interface IQuestion extends Document {
   img: string;
   endNode : boolean;
   efficacy:string;
+  civilProtec:string;
 }
 
 // eslint-disable-next-line @typescript-eslint/naming-convention

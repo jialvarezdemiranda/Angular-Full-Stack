@@ -11,6 +11,7 @@ export class Question {
       threshold?:string;
       socialProb?:number[]
       efficacy?:string;
+      civilProtec?:string;
        }[];
     img?: string;
     endNode?:boolean;
