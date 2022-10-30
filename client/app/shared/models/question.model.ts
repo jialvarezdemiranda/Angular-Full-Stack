@@ -5,7 +5,13 @@ export class Question {
     options?:{
       optionID:number;
       text : string;
-      nextID : number
+      nextID ?: number;
+      nextID_s ?: number;
+      nextID_f ?: number;
+      threshold?:string;
+      socialProb?:number[]
+      efficacy?:string;
        }[];
     img?: string;
+    endNode?:boolean;
   }

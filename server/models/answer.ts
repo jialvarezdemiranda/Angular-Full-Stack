@@ -6,7 +6,11 @@ const answerSchema = new Schema<IAnswer>({
     questionID: Number,
     optionID: Number,
     nextID:Number,
-    time:Number
+    time:Number,
+    day:Number,
+    socialProb:[Number],
+    currentColProb:Number,
+    
 });
 
 interface IAnswer extends Document {
@@ -15,7 +19,10 @@ interface IAnswer extends Document {
     questionID: number,
     optionID: number,
     nextID:number,
-    time:number
+    time:number,
+    day:number;
+    socialProb:number[];
+    currentColProb:number;
 }
 
 // eslint-disable-next-line @typescript-eslint/naming-convention

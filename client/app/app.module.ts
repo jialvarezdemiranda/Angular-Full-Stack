@@ -28,6 +28,7 @@ import { AdminComponent } from './admin/admin.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AnswerService } from './services/answer.service';
 import { HistoricAnswerService } from './services/historicAnswer.service';
+import { AsteroidService } from './services/asteroid.service';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { HistoricAnswerService } from './services/historicAnswer.service';
     UserService,
     QuestionService,
     AnswerService,
-    HistoricAnswerService
+    HistoricAnswerService,
+    AsteroidService
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]

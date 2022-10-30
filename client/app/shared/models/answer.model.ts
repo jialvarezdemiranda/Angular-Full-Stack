@@ -6,4 +6,7 @@ export class Answer {
     optionID?: number;
     nextID?:number;
     time?:number;
+    day?:number;
+    socialProb?:number[];
+    currentColProb?:number;
   }

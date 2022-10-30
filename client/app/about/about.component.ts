@@ -18,10 +18,6 @@ ngOnInit(): void {
   this.deviceID=this.getDeviceId();
   this.answerService.getLastAnswer(this.deviceID).subscribe(
     response => {
-      console.log(response);
-      console.log(response.nextID)
-      console.log(response.time)
-      console.log(response.optionID)
       if(response.nextID!=undefined){
         this.hasPlayedBefore=true;
         this.nextID=response.nextID;

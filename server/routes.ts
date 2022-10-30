@@ -5,6 +5,7 @@ import UserCtrl from './controllers/user';
 import QuestionCtrl from './controllers/question';
 import AnswerCtrl from './controllers/answer';
 import HistoricAnswerCtrl from './controllers/historicAnswer';
+import AsteroidCtrl from './controllers/asteroid';
 
 const setRoutes = (app: Application): void => {
   const router = Router();
@@ -13,6 +14,7 @@ const setRoutes = (app: Application): void => {
   const questionCtrl = new QuestionCtrl();
   const answerCtrl = new AnswerCtrl();
   const historicAnswerCtrl = new HistoricAnswerCtrl();
+  const asteroidCtrl = new AsteroidCtrl();
 
   // Cats
   router.route('/cats').get(catCtrl.getAll);
@@ -55,6 +57,14 @@ const setRoutes = (app: Application): void => {
   router.route('/historicAnswer/:id').put(historicAnswerCtrl.update);
   router.route('/historicAnswer/:id').delete(historicAnswerCtrl.delete);
 
+    // Asteroids
+    router.route('/asteroids').get(asteroidCtrl.getAll);
+    router.route('/asteroids/count').get(asteroidCtrl.count);
+    router.route('/asteroid').post(asteroidCtrl.insert);
+    router.route('/asteroid/:id').get(asteroidCtrl.get);
+    router.route('/asteroid/:id').put(asteroidCtrl.update);
+    router.route('/asteroid/:id').delete(asteroidCtrl.delete);
+  
   // Apply the routes to our application with the prefix /api
   app.use('/api', router);
 
