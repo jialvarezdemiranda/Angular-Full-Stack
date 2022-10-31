@@ -390,7 +390,7 @@ export class QuestionsComponent implements OnInit {
               
     if(optionSelected.nextID!=questionID){
       if(this.efficacy !=undefined){
-        this.currentColProb=this.currentColProb-this.deflectMethods[this.efficacy];
+        this.currentColProb=this.currentColProb-this.deflectMethods[this.efficacy] * this.deflectMethods[this.optionSelected.threshold];
       }
       let answer:Answer= {
         "expireAt":tomorrow,
