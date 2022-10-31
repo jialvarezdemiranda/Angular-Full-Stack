@@ -102,9 +102,6 @@ export class QuestionsComponent implements OnInit {
             this.deviceID=this.getDeviceId();
             this.answerService.getLastAnswer(this.deviceID).subscribe(
               response => {
-                console.log("Device ID:"+ this.deviceID)
-                console.log("Response:");
-                console.log(response);
                 if(response.questionID!=undefined){
                   this.currentColProb= response.currentColProb;      
                   if(this.parsedText!= undefined){
@@ -112,10 +109,6 @@ export class QuestionsComponent implements OnInit {
                   }
                   this.socialProb= response.socialProb;
                   this.civilProtec= response.civilProtec;
-                  console.log("Valores tras leer la respuesta anterior:");
-                  console.log("Social prob: " + this.socialProb);
-                  console.log("Prob colision: " +  this.currentColProb);
-                  console.log("Civil protect: " +  this.civilProtec);
                 }
                 if(this.questionID == 6 || this.questionID == 7){
                   this.parsedText="";
@@ -129,7 +122,6 @@ export class QuestionsComponent implements OnInit {
               this.currentColProb=this.asteroidProperties['P0'];
               this.socialProb= [0.5,0.5,0.5,0];
               this.civilProtec= "notSet";
-              console.log("Social prob en question 1 al principio vale: " + this.socialProb);
             }
             else{
               let variability= Math.random()*0.1;
@@ -158,7 +150,6 @@ export class QuestionsComponent implements OnInit {
     let totalDeaths;
     let socialResponse="";
     let socialResponseImpact="";
-    console.log("Antes de pintar el texto del social outcome, civil protect: " + this.civilProtec);
     if(this.socialProb[3]==1){ // People unaware
       if(this.civilProtec=== "evacuation"){
         this.parsedText="With the time remaining, you begin to organize together with the different European governments a massive evacuation unprecedented in recent times. Initially, a large part of the population was reluctant to leave their homes, but thanks to the great effort of your team and the local authorities, you were able to move the vast majority of these people to inland sites with less risk of damage. From the authorities who have supported you in this immense operation, the cost of the evacuation is estimated at tens of millions of euros. <br>"
@@ -187,7 +178,6 @@ export class QuestionsComponent implements OnInit {
     else{ // There was a previous communication
 
       let result = this.randomChoices(this.socialProb, 1);
-      console.log("Ha habido comunicacion previa y el resultado del social outcome es: " + result[0]);
       if(result[0]==0){ //Panic
         socialResponse= "Panic has gripped the population. There has been severe damage due to disturbances with the authorities and looting that has not yet been accurately estimated.";
         socialResponseImpact=socialResponse;
@@ -251,10 +241,6 @@ export class QuestionsComponent implements OnInit {
               socialResponseImpact=socialResponse;
                 
             }
-          totalDeaths=40;
-          socialResponse= " ";
-          
-          socialResponseImpact= socialResponse;
         }
       }
 
@@ -335,7 +321,6 @@ export class QuestionsComponent implements OnInit {
     }
     if(this.questionID == 2 || this.questionID == 3 || this.questionID == 8  ){
       this.socialProb=this.optionSelected.socialProb;
-      console.log("Esto se ha ejecutado y ahora social prob vale: " + this.socialProb)
     }
 
     if(this.questionID == 10 || this.questionID == 11 || this.questionID == 15 ||  
@@ -357,12 +342,10 @@ export class QuestionsComponent implements OnInit {
        threshold= 1-this.deflectMethods[thresholdName];
       }
       let valueRolled=Math.random();
-      console.log("value rolled: " + valueRolled + " Threshold to beat (>) used: " + threshold);
       if(threshold !=undefined && valueRolled >= threshold  ){
         this.nextQuestion=this.optionSelected.nextID_s;
         if(this.questionID==5 || this.questionID==12){
           this.efficacy=this.optionSelected.efficacy;
-          console.log("Efficacy applied: " + this.efficacy);
         }
       }
       else {
@@ -411,7 +394,6 @@ export class QuestionsComponent implements OnInit {
 
       this.historicAnswerService.addAnswer(answer).subscribe(
         response => {
-          console.log('Response saved');
         }
       );
     }
