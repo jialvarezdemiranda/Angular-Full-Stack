@@ -93,22 +93,29 @@ export class QuestionsComponent implements OnInit {
           this.parsedText=this.parseTextOfQuestion(this.text);
           this.img=x.img;
           this.options=x.options;
-          this.endNode=x.endNode;
+          if(x.endNode!=undefined)
+            this.endNode=!x.endNode; // We invert so we do not have to change the angular if
+          else
+            this.endNode=true;
           
-          if(this.questionID != 1){
+          if(this.questionID != 1 && this.questionID != 4 ){
             this.deviceID=this.getDeviceId();
             this.answerService.getLastAnswer(this.deviceID).subscribe(
               response => {
                 console.log("Device ID:"+ this.deviceID)
                 console.log("Response:");
                 console.log(response);
-                if(response.nextID!=undefined){
-                  this.currentColProb= response.currentColProb;
+                if(response.questionID!=undefined){
+                  this.currentColProb= response.currentColProb;      
+                  if(this.parsedText!= undefined){
+                    this.parsedText=this.parsedText.replace("{{currentColProb}}", this.currentColProb);
+                  }
                   this.socialProb= response.socialProb;
                   this.civilProtec= response.civilProtec;
                   console.log("Valores tras leer la respuesta anterior:");
                   console.log("Social prob: " + this.socialProb);
                   console.log("Prob colision: " +  this.currentColProb);
+                  console.log("Civil protect: " +  this.civilProtec);
                 }
                 if(this.questionID == 6 || this.questionID == 7){
                   this.parsedText="";
@@ -118,10 +125,27 @@ export class QuestionsComponent implements OnInit {
             );
           }
           else{
-            this.currentColProb=this.asteroidProperties['P0'];
-            this.socialProb= [0.5,0.5,0.5,0];
-            this.civilProtec= "notSet";
-            console.log("Social prob en question 1 al principio vale: " + this.socialProb);
+            if(this.questionID == 1){
+              this.currentColProb=this.asteroidProperties['P0'];
+              this.socialProb= [0.5,0.5,0.5,0];
+              this.civilProtec= "notSet";
+              console.log("Social prob en question 1 al principio vale: " + this.socialProb);
+            }
+            else{
+              let variability= Math.random()*0.1;
+              let sign=Math.random();
+              if(sign>=0.5){
+                this.currentColProb=this.asteroidProperties['P0']+variability;
+              }
+              else{
+                this.currentColProb=this.asteroidProperties['P0']-variability;
+              }
+              this.socialProb= [0.5,0.5,0.5,0];
+              this.civilProtec= "notSet";
+              if(this.parsedText!=undefined){
+                this.parsedText=this.parsedText.replace("{{currentColProb}}", this.currentColProb);
+              }
+            }
           }
 
         });
@@ -134,6 +158,7 @@ export class QuestionsComponent implements OnInit {
     let totalDeaths;
     let socialResponse="";
     let socialResponseImpact="";
+    console.log("Antes de pintar el texto del social outcome, civil protect: " + this.civilProtec);
     if(this.socialProb[3]==1){ // People unaware
       if(this.civilProtec=== "evacuation"){
         this.parsedText="With the time remaining, you begin to organize together with the different European governments a massive evacuation unprecedented in recent times. Initially, a large part of the population was reluctant to leave their homes, but thanks to the great effort of your team and the local authorities, you were able to move the vast majority of these people to inland sites with less risk of damage. From the authorities who have supported you in this immense operation, the cost of the evacuation is estimated at tens of millions of euros. <br>"
@@ -173,7 +198,7 @@ export class QuestionsComponent implements OnInit {
         socialResponseImpact=socialResponse;
       }
       if(result[0]==2){ // Conspiracy theories
-        socialResponse= "A significant sector of the population has begun to spread conspiracy theories, which has made it difficult for the majority of the population to follow instructions.";
+        socialResponse= "A significant sector of the population has begun to spread conspiracy theories, which has caused a good part of the population to turn against following the instructions. In addition, this movement has caused part of the population to lose confidence in your team for future tasks.";
         socialResponseImpact=socialResponse;
       }
 
@@ -240,24 +265,25 @@ export class QuestionsComponent implements OnInit {
     if(this.questionID==6){
       this.parsedText=this.parsedText+
       
-      "<br>Finally the moment of truth came when the asteroid's trajectory was close to Earth.  You were in the control room monitoring the asteroid's course in real time, and the tension was palpable when from the Earth's surface it was possible to discern a trail indicating the rock's course. Finally, relief and euphoria broke out when you realized that the asteroid passed our planet and the probability of an impact is finally 0%."+
-        "<strong>THE END </strong><br>"+
+      "<br>Finally the moment of truth came when the asteroid's trajectory was close to Earth.  You were in the control room monitoring the asteroid's course in real time, and the tension was palpable when from the Earth's surface it was possible to discern a trail indicating the rock's course. At last, relief and euphoria broke out when you realized that the asteroid passed our planet and the probability of an impact is finally 0%."+
+        "<br><br><strong>THE END </strong><br><br>"+
         "Game results<br>"+
 
         "<strong>Asteroid impact:</strong> Avoided.<br>"+
         "<strong>% of affected population killed:</strong> 0% <br>"+
-        "<strong>Social outcome:</strong>"+ socialResponse +" <br>";
+        "<strong>Social outcome:</strong> "+ socialResponse +" <br>";
     }
     else{
       this.parsedText=this.parsedText+
       
-      "<br>Finally the moment of truth came when the asteroid's trajectory was close to Earth.  You were in the control room monitoring the asteroid's course in real time, and the tension was palpable when from the Earth's surface it was possible to discern a trail indicating the rock's course. Finally, relief and euphoria broke out when you realized that the asteroid passed our planet and the probability of an impact is finally 0%."+
-        "<strong>THE END </strong><br>"+
+      "<br>Finally, the moment of truth came when the asteroid's trajectory approached the Earth.  You were in the control room following the asteroid's course in real time, and the tension was palpable when from the Earth's surface it was possible to discern a trail indicating the rock's course. At last, silence fell in the room as you watched the asteroid curve more and more of its trajectory until it hit the surface of the Atlantic Ocean. Fortunately the impact zone was not an inhabited area, but the strong impact caused a series of tsunamis that severely damaged the coastal areas of France and England. In addition to the tsunamis, you estimate that the marine ecosystems that inhabited the impact zone have been completely destroyed, in what could also be classified as an ecological disaster."+
+      "<br><br><strong>THE END </strong><br><br>"+
         "Game results<br>"+
 
-        "<strong>Asteroid impact:</strong> Avoided.<br>"+
+        "<strong>Asteroid impact:</strong> Impacted.<br>"+
+        "<strong>Ecological outcome:</strong> Destruction of marine ecosystem<br>"+
         "<strong>% of affected population killed:</strong> "+ totalDeaths + "%<br>"+
-        "<strong>Social response:</strong>"+ socialResponseImpact +" <br>";
+        "<strong>Social response:</strong> "+ socialResponseImpact +" <br>";
 
     }
     
@@ -271,7 +297,7 @@ export class QuestionsComponent implements OnInit {
       
 
       //replace all var {{var}} for its value
-      resul=resul.replace("{{currentProbColision}}", this.currentColProb);
+      
       resul=resul.replace("{{P0}}", this.asteroidProperties["P0"]);
       resul=resul.replace("{{dT}}", this.asteroidProperties["dT"]);
       resul=resul.replace("{{dT_reduced}}", this.asteroidProperties["dT_reduced"]);
@@ -312,8 +338,8 @@ export class QuestionsComponent implements OnInit {
       console.log("Esto se ha ejecutado y ahora social prob vale: " + this.socialProb)
     }
 
-    if(this.questionID == 10 || this.questionID == 11 || this.questionID == 3 ||  
-      this.questionID == 13 || this.questionID == 14 || this.questionID == 9){
+    if(this.questionID == 10 || this.questionID == 11 || this.questionID == 15 ||  
+      this.questionID == 13 || this.questionID == 14 || this.questionID == 16){
 
       this.civilProtec=this.optionSelected.civilProtec;
     }
