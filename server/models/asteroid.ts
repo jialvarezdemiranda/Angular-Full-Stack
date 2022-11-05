@@ -3,8 +3,8 @@ import { Document, model, Schema } from 'mongoose';
 const asteroidSchema = new Schema<IAsteroid>({
     day:Number,
     P0: Number,
-    dT: String,
-    dT_reduced: String,
+    dT: Number,
+    dT_reduced: Number,
     E0:String,
     diameter: String,
 
@@ -27,8 +27,8 @@ const asteroidSchema = new Schema<IAsteroid>({
 interface IAsteroid extends Document {
     day:number,
     P0: number,
-    dT: string,
-    dT_reduced: string,
+    dT: number,
+    dT_reduced: number,
     E0:string,
     diameter: string,
 

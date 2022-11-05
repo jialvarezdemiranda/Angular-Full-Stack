@@ -15,4 +15,5 @@ export class Question {
        }[];
     img?: string;
     endNode?:boolean;
+    title?: string;
   }

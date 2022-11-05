@@ -1,8 +1,8 @@
 export class Asteroid {
     day?:number;
     P0?: number;
-    dT?: string;
-    dT_reduced?: string;
+    dT?: number;
+    dT_reduced?: number;
     E0?:string;
     Diameter?: string;
 

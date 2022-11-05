@@ -17,6 +17,7 @@ const questionSchema = new Schema<IQuestion>({
      }],
    img: String,
    endNode : Boolean,
+   title: String,
 });
 
 interface IQuestion extends Document {
@@ -27,6 +28,7 @@ interface IQuestion extends Document {
   endNode : boolean;
   efficacy:string;
   civilProtec:string;
+  title: string;
 }
 
 // eslint-disable-next-line @typescript-eslint/naming-convention

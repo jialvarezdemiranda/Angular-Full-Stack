@@ -22,6 +22,7 @@ export class QuestionsComponent implements OnInit {
   questions: Question[] = [];
   questionID:number=-1;
   text?:string;
+  title?:string;
   parsedText?:string;
   img?:string;
   endNode?:boolean;
@@ -90,6 +91,7 @@ export class QuestionsComponent implements OnInit {
         this.question= this.questionService.getQuestion(this.questionID);
         this.question.subscribe((x) => {
           this.text=x.question;
+          this.title=x.title;
           this.parsedText=this.parseTextOfQuestion(this.text);
           this.img=x.img;
           this.options=x.options;
@@ -105,6 +107,7 @@ export class QuestionsComponent implements OnInit {
                 if(response.questionID!=undefined){
                   this.currentColProb= response.currentColProb;      
                   if(this.parsedText!= undefined){
+                    this.currentColProb=Math.round((this.currentColProb + Number.EPSILON) * 100) / 100
                     this.parsedText=this.parsedText.replace("{{currentColProb}}", this.currentColProb);
                   }
                   this.socialProb= response.socialProb;
@@ -122,6 +125,12 @@ export class QuestionsComponent implements OnInit {
               this.currentColProb=this.asteroidProperties['P0'];
               this.socialProb= [0.5,0.5,0.5,0];
               this.civilProtec= "notSet";
+              if(this.options!=undefined){
+                for (let i = 0; i < this.options?.length; i++) {
+                  this.asteroidProperties["waitTime"]= this.asteroidProperties["dT"]-this.asteroidProperties["dT_reduced"];
+                  this.options[i].text=this.options[i].text.replace("{{waitTime}}", this.asteroidProperties["waitTime"]);
+                }
+              }
             }
             else{
               let variability= Math.random()*0.1;
@@ -135,6 +144,7 @@ export class QuestionsComponent implements OnInit {
               this.socialProb= [0.5,0.5,0.5,0];
               this.civilProtec= "notSet";
               if(this.parsedText!=undefined){
+                this.currentColProb=Math.round((this.currentColProb + Number.EPSILON) * 100) / 100 // round two decimals
                 this.parsedText=this.parsedText.replace("{{currentColProb}}", this.currentColProb);
               }
             }
@@ -256,26 +266,31 @@ export class QuestionsComponent implements OnInit {
         "Game results<br>"+
 
         "<strong>Asteroid impact:</strong> Avoided.<br>"+
-        "<strong>% of affected population killed:</strong> 0% <br>"+
-        "<strong>Social outcome:</strong> "+ socialResponse +" <br>";
+        "<strong>% of population killed by the impact:</strong> 0% <br>"+
+        "<strong>Social outcome:</strong> "+ socialResponse +" <br><br>" +
+        "Today's game is over, but tomorrow you will be able to access the same link to see the global statistics of the day and replay with a different asteroid. <br>"+
+        "<br><strong>Thank you for playing!</strong>";
     }
     else{
       this.parsedText=this.parsedText+
       
-      "<br>Finally, the moment of truth came when the asteroid's trajectory approached the Earth.  You were in the control room following the asteroid's course in real time, and the tension was palpable when from the Earth's surface it was possible to discern a trail indicating the rock's course. At last, silence fell in the room as you watched the asteroid curve more and more of its trajectory until it hit the surface of the Atlantic Ocean. Fortunately the impact zone was not an inhabited area, but the strong impact caused a series of tsunamis that severely damaged the coastal areas of France and England. In addition to the tsunamis, you estimate that the marine ecosystems that inhabited the impact zone have been completely destroyed, in what could also be classified as an ecological disaster."+
+      "<br>Finally, the moment of truth came when the asteroid's trajectory approached Earth.  You were in the control room following the asteroid's course in real time, and the tension was palpable when from the Earth's surface it was possible to discern a trace indicating the rock's course. Finally, there was silence in the room as the asteroid was watched as it curved more and more of its trajectory until it collided with the surface of the Atlantic Ocean on its border with the Celtic Sea. Fortunately, the impact zone was not an inhabited area, but the strong impact caused a series of tsunamis that severely damaged the coastal areas of France, the United Kingdom, Ireland and part of northern Spain. In addition to the tsunamis, the marine ecosystems that inhabited the impact zone are estimated to have been completely destroyed, in what could also be described as an ecological disaster."+
       "<br><br><strong>THE END </strong><br><br>"+
         "Game results<br>"+
 
         "<strong>Asteroid impact:</strong> Impacted.<br>"+
         "<strong>Ecological outcome:</strong> Destruction of marine ecosystem<br>"+
-        "<strong>% of affected population killed:</strong> "+ totalDeaths + "%<br>"+
-        "<strong>Social response:</strong> "+ socialResponseImpact +" <br>";
+        "<strong>% of population killed by the impact:</strong> "+ totalDeaths + "% of affected coastal areas <br>"+
+        "<strong>Social response:</strong> "+ socialResponseImpact +" <br><br>" +
+        "Today's game is over, but tomorrow you will be able to access the same link to see the global statistics of the day and replay with a different asteroid. <br>"+
+        "<br><strong>Thank you for playing!</strong>";
 
     }
     
   }
 
   parseTextOfQuestion(text:any):any{
+    
     let resul=text;
     if(resul!=undefined){
       resul=resul.replace(/\\n/g, "\n");
@@ -283,6 +298,10 @@ export class QuestionsComponent implements OnInit {
       
 
       //replace all var {{var}} for its value
+
+
+      
+
       
       resul=resul.replace("{{P0}}", this.asteroidProperties["P0"]);
       resul=resul.replace("{{dT}}", this.asteroidProperties["dT"]);
@@ -290,10 +309,18 @@ export class QuestionsComponent implements OnInit {
       resul=resul.replace("{{E0}}", this.asteroidProperties["E0"]);
       resul=resul.replace("\{\{Diameter\}\}", this.asteroidProperties["Diameter"]);
 
-      resul=resul.replace("{{Ps_NED}}", this.deflectMethods["Ps_NED"]);
-      resul=resul.replace("{{Ps_KI}}", this.deflectMethods["Ps_KI"]);
-      resul=resul.replace("{{Ps_LA}}", this.deflectMethods["Ps_LA"]);
-      resul=resul.replace("{{Ps_GT}}", this.deflectMethods["Ps_GT"]);
+      // convert TRLs to ints
+
+
+      let intvalueNED = Math.trunc( this.deflectMethods["Ps_NED"] *10 );
+      let intvalueKI = Math.trunc( this.deflectMethods["Ps_KI"] *10 );
+      let intvalueLA = Math.trunc( this.deflectMethods["Ps_LA"] *10 );
+      let intvalueGT = Math.trunc( this.deflectMethods["Ps_GT"] *10 );
+
+      resul=resul.replace("{{Ps_NED}}", intvalueNED);
+      resul=resul.replace("{{Ps_KI}}", intvalueKI);
+      resul=resul.replace("{{Ps_LA}}", intvalueLA);
+      resul=resul.replace("{{Ps_GT}}", intvalueGT);
 
       resul=resul.replace("{{dPc_NED}}", this.deflectMethods["dPc_NED"]);
       resul=resul.replace("{{dPc_KI}}", this.deflectMethods["dPc_KI"]);
@@ -380,7 +407,7 @@ export class QuestionsComponent implements OnInit {
         "deviceID":deviceID,
         "questionID":questionID,
         "optionID":optionSelected.optionID,
-        "nextID":optionSelected.nextID,
+        "nextID":this.nextQuestion,
         "time": Date.now(),
         "day": day, 
         "currentColProb":this.currentColProb,
