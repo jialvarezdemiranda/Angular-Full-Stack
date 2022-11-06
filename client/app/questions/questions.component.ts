@@ -47,6 +47,7 @@ export class QuestionsComponent implements OnInit {
   deflectMethod: any;
   deflectSuccess: any;
   sideEffects: any;
+  hasImage: any;
   constructor(private questionService: QuestionService,
               public toast: ToastComponent, private route:ActivatedRoute, 
               private answerService: AnswerService,
@@ -96,6 +97,9 @@ export class QuestionsComponent implements OnInit {
           this.title=x.title;
           this.parsedText=this.parseTextOfQuestion(this.text);
           this.img=x.img;
+          if(this.img!=undefined){
+            this.hasImage=true;
+          }
           this.options=x.options;
           if(x.endNode!=undefined)
             this.endNode=!x.endNode; // We invert so we do not have to change the angular if
@@ -353,7 +357,7 @@ export class QuestionsComponent implements OnInit {
 
         "<strong>Asteroid impact:</strong> Impacted.<br>"+
         "<strong>Ecological outcome:</strong> Destruction of marine ecosystem<br>"+
-        "<strong>% of population killed by the impact  of the asteroid:</strong> "+ totalDeaths + "% of affected coastal areas <br>"+
+        "<strong>% of population killed by the impact of the asteroid:</strong> "+ totalDeaths + "% of the population of the affected coastal areas <br>"+
         "<strong>Social response:</strong> "+ socialResponseImpact +" <br>" +
         "<strong>Side effects:</strong> "+ this.sideEffects +" <br><br>" +
         "Today's game is over, but tomorrow you will be able to access the same link to see the global statistics of the day and replay with a different asteroid. <br>"+
