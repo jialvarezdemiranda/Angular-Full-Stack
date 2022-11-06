@@ -11,6 +11,9 @@ const answerSchema = new Schema<IAnswer>({
     socialProb:[Number],
     currentColProb:Number,
     civilProtec: String,
+    deflectMethod: String,
+    deflectSuccess:Boolean,
+    sideEffects:String,
     
 });
 
@@ -25,6 +28,9 @@ interface IAnswer extends Document {
     socialProb:number[],
     currentColProb:number,
     civilProtec:string,
+    deflectMethod: string,
+    deflectSuccess:boolean,
+    sideEffects:string,
 }
 
 // eslint-disable-next-line @typescript-eslint/naming-convention

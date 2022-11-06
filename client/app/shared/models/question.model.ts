@@ -12,6 +12,7 @@ export class Question {
       socialProb?:number[]
       efficacy?:string;
       civilProtec?:string;
+      method?:string;
        }[];
     img?: string;
     endNode?:boolean;

@@ -10,4 +10,7 @@ export class Answer {
     socialProb?:number[];
     currentColProb?:number;
     civilProtec?:string;
+    deflectMethod?: string;
+    deflectSuccess?:boolean;
+    sideEffects?:string;
   }

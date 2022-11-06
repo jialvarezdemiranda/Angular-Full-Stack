@@ -44,7 +44,9 @@ export class QuestionsComponent implements OnInit {
   socialProb:any;
   civilProtec?:any;
   efficacy: any= undefined;
-
+  deflectMethod: any;
+  deflectSuccess: any;
+  sideEffects: any;
   constructor(private questionService: QuestionService,
               public toast: ToastComponent, private route:ActivatedRoute, 
               private answerService: AnswerService,
@@ -112,6 +114,50 @@ export class QuestionsComponent implements OnInit {
                   }
                   this.socialProb= response.socialProb;
                   this.civilProtec= response.civilProtec;
+                  this.deflectMethod=response.deflectMethod;
+                  this.sideEffects=response.sideEffects;
+                  if(this.questionID == 10 || this.questionID == 13 ){
+
+                    let text= "Time flew by as you and your team worked tirelessly to put the plan into action. Against the expectations of the more pessimistic members of the group, you manage to complete your deflection mechanism on time."+ 
+                    " You successfully apply the deflection technique, which according to the theoretical effectiveness you had estimated allows you to approximate the new collision probability as <strong>" + this.currentColProb + "</strong>.";
+                    this.deflectSuccess=true;
+
+                    
+
+                    if(this.deflectMethod==="NED"){
+                      let valueRolled=Math.random();
+                      console.log("Value rolled: " + valueRolled);
+                      console.log("To beat 0.5");
+                      if(valueRolled >= 0.5){
+                        text=text+ 
+                        "<br><br>After detonating the nuclear explosive device, you proceed to perform a integrity analysis of the asteroid and estimate the extent of the radiation to check for the possible side effects you had estimated. Unfortunately, it seems that your initial calculations on the extent of the radiation were slightly wrong, and you estimate that a small part of the radiation will reach and contaminate part of the earth's surface. Not only that, but by monitoring the integrity of the asteroid you have found that several fragments of the rock have broken off in different directions due to the explosion. Right now you are not able to determine the trajectory of all the fragments and you can only wait to receive news of whether any of these pieces cause any damage.";
+                        this.sideEffects="Nuclear contamination and damage to be assessed by possible asteroid fragments impacting the Earth.";
+                      }
+                      else{
+                        text=text+
+                        "<br><br>After detonating the nuclear explosive device, you proceed to perform a integrity analysis of the asteroid and estimate the extent of the radiation to check for the possible side effects you had estimated. Fortunately, the results of these studies show that there is no imminent danger of fragmentation and that the radiation levels do not pose a danger to Earth.";
+                      }
+                    }
+                
+                    if(this.deflectMethod==="KI"){
+                      let valueRolled=Math.random();
+                      console.log("Value rolled: " + valueRolled);
+                      console.log("To beat 0.4");
+                      if(valueRolled >= 0.4){
+                        text=text+
+                        "<br><br>After successfully colliding the impactor with the asteroid, you proceed to check the integrity of the rock to determine if there is a danger of fragmentation. Unfortunately, you have found that several fragments of the rock have broken off in different directions due to the heavy collision of the asteroid with the impactor.  At this time you are unable to determine the trajectory of all the fragments and can only wait to hear if any of these pieces cause any damage.";
+                        this.sideEffects="Damage to be assessed by possible asteroid fragments impacting the Earth.";
+                      }
+                      else{
+                        text=text+
+                        "<br><br>After successfully colliding the impactor with the asteroid, you proceed to check the integrity of the rock to determine if there is a danger of fragmentation. To your relief, the results of this study show that there is no imminent danger of shattering."
+                      }
+                    }
+                    this.parsedText=text + this.parsedText;
+                  }
+                  else{
+                    this.deflectSuccess=response.deflectSuccess;
+                  }
                 }
                 if(this.questionID == 6 || this.questionID == 7){
                   this.parsedText="";
@@ -125,6 +171,9 @@ export class QuestionsComponent implements OnInit {
               this.currentColProb=this.asteroidProperties['P0'];
               this.socialProb= [0.5,0.5,0.5,0];
               this.civilProtec= "notSet";
+              this.deflectMethod="notSet";
+              this.sideEffects="None";
+              this.deflectSuccess=false;
               if(this.options!=undefined){
                 for (let i = 0; i < this.options?.length; i++) {
                   this.asteroidProperties["waitTime"]= this.asteroidProperties["dT"]-this.asteroidProperties["dT_reduced"];
@@ -143,6 +192,9 @@ export class QuestionsComponent implements OnInit {
               }
               this.socialProb= [0.5,0.5,0.5,0];
               this.civilProtec= "notSet";
+              this.deflectMethod="notSet";
+              this.sideEffects="None";
+              this.deflectSuccess=false;
               if(this.parsedText!=undefined){
                 this.currentColProb=Math.round((this.currentColProb + Number.EPSILON) * 100) / 100 // round two decimals
                 this.parsedText=this.parsedText.replace("{{currentColProb}}", this.currentColProb);
@@ -162,15 +214,15 @@ export class QuestionsComponent implements OnInit {
     let socialResponseImpact="";
     if(this.socialProb[3]==1){ // People unaware
       if(this.civilProtec=== "evacuation"){
-        this.parsedText="With the time remaining, you begin to organize together with the different European governments a massive evacuation unprecedented in recent times. Initially, a large part of the population was reluctant to leave their homes, but thanks to the great effort of your team and the local authorities, you were able to move the vast majority of these people to inland sites with less risk of damage. From the authorities who have supported you in this immense operation, the cost of the evacuation is estimated at tens of millions of euros. <br>"
-        "Moreover, in the population there are a significant number of people who feel betrayed by your team, since they claim that information as relevant as the impact of an asteroid cannot be kept secret. In fact, different populist factions have emerged, supported by various political parties in opposition to the current governments, demanding that you and your team be prosecuted for negligence in your work. On the other hand, there are people within the governments who believe that you have acted cautiously and are trying to calm these claims. Only time will tell what such prosecutions will lead to... <br>";
+        this.parsedText="With the time remaining, you begin to organize together with the different European governments a massive evacuation unprecedented in recent times. Initially, a large part of the population was reluctant to leave their homes, but thanks to the great effort of your team and the local authorities, you were able to move the vast majority of these people to inland sites with less risk of damage. From the authorities who have supported you in this immense operation, the cost of the evacuation is estimated at tens of millions of euros."+
+        " Moreover, in the population there are a significant number of people who feel betrayed by your team, since they claim that information as relevant as the impact of an asteroid cannot be kept secret. In fact, different populist factions have emerged, supported by various political parties in opposition to the current governments, demanding that you and your team be prosecuted for negligence in your work. On the other hand, there are people within the governments who believe that you have acted cautiously and are trying to calm these claims. Only time will tell what such prosecutions will lead to... <br>";
         totalDeaths=2;
         socialResponse= "Tens of millions of euros spent to carry out a massive evacuation. Open legal proceedings against your group for possible negligence. ";
         socialResponseImpact=socialResponse;
       }
       else{
         if(this.civilProtec=== "shelter"){
-          this.parsedText="With the remaining time, you begin to organize together with the different European governments an alert to the population to make them seek refuge. An important sector of the population, due to the sudden announcement of the threat of the asteroid, panicked and decided to follow the indications, but not before provoking some riots and looting in stores. The damage of these riots has not yet been accurately estimated. <br>"+
+          this.parsedText="With the remaining time, you begin to organize together with the different European governments an alert to the population to make them seek refuge. An important sector of the population, due to the sudden announcement of the threat of the asteroid, panicked and decided to follow the indications, but not before provoking some riots and looting in stores. The damage of these riots has not yet been accurately estimated. "+
           "Moreover, in the population there are a significant number of people who feel betrayed by your team, since they claim that information as relevant as the impact of an asteroid cannot be kept secret. In fact, different populist factions have emerged, supported by various political parties in opposition to the current governments, demanding that you and your team be prosecuted for negligence in your work. On the other hand, there are people within the governments who believe that you have acted cautiously and are trying to calm these claims. Only time will tell what such prosecutions will lead to...<br>";
           totalDeaths=12;
           socialResponse= "Damages caused by riots and looting of stores still to be estimated. Open legal proceedings against your group for possible negligence.";
@@ -258,35 +310,57 @@ export class QuestionsComponent implements OnInit {
     this.finalImpactText(totalDeaths, socialResponse, socialResponseImpact);
   }
   finalImpactText(totalDeaths:number, socialResponse:string, socialResponseImpact:string) {
+
+
+
     if(this.questionID==6){
       this.parsedText=this.parsedText+
       
-      "<br>Finally the moment of truth came when the asteroid's trajectory was close to Earth.  You were in the control room monitoring the asteroid's course in real time, and the tension was palpable when from the Earth's surface it was possible to discern a trail indicating the rock's course. At last, relief and euphoria broke out when you realized that the asteroid passed our planet and the probability of an impact is finally 0%."+
-        "<br><br><strong>THE END </strong><br><br>"+
-        "Game results<br>"+
+      "<br><br>Finally the moment of truth came when the asteroid's trajectory was close to Earth.  You were in the control room monitoring the asteroid's course in real time, and the tension was palpable when from the Earth's surface it was possible to discern a trail indicating the rock's course. At last, relief and euphoria broke out when you realized that the asteroid passed our planet and the probability of an impact is finally 0%.";
 
-        "<strong>Asteroid impact:</strong> Avoided.<br>"+
-        "<strong>% of population killed by the impact:</strong> 0% <br>"+
-        "<strong>Social outcome:</strong> "+ socialResponse +" <br><br>" +
-        "Today's game is over, but tomorrow you will be able to access the same link to see the global statistics of the day and replay with a different asteroid. <br>"+
-        "<br><strong>Thank you for playing!</strong>";
     }
     else{
       this.parsedText=this.parsedText+
       
-      "<br>Finally, the moment of truth came when the asteroid's trajectory approached Earth.  You were in the control room following the asteroid's course in real time, and the tension was palpable when from the Earth's surface it was possible to discern a trace indicating the rock's course. Finally, there was silence in the room as the asteroid was watched as it curved more and more of its trajectory until it collided with the surface of the Atlantic Ocean on its border with the Celtic Sea. Fortunately, the impact zone was not an inhabited area, but the strong impact caused a series of tsunamis that severely damaged the coastal areas of France, the United Kingdom, Ireland and part of northern Spain. In addition to the tsunamis, the marine ecosystems that inhabited the impact zone are estimated to have been completely destroyed, in what could also be described as an ecological disaster."+
+      "<br><br>Finally, the moment of truth came when the asteroid's trajectory approached Earth.  You were in the control room following the asteroid's course in real time, and the tension was palpable when from the Earth's surface it was possible to discern a trace indicating the rock's course. Finally, there was silence in the room as the asteroid was watched as it curved more and more of its trajectory until it collided with the surface of the Atlantic Ocean on its border with the Celtic Sea. Fortunately, the impact zone was not an inhabited area, but the strong impact caused a series of tsunamis that severely damaged the coastal areas of France, the United Kingdom, Ireland and part of northern Spain. In addition to the tsunamis, the marine ecosystems that inhabited the impact zone are estimated to have been completely destroyed, in what could also be described as an ecological disaster.";
+      
+
+    }
+
+    this.GameResultsText(totalDeaths,socialResponse,socialResponseImpact);
+    
+  }
+
+  GameResultsText(totalDeaths:number, socialResponse:string, socialResponseImpact:string) {
+
+    if(this.questionID==6){
+      this.parsedText=this.parsedText+
+      "<br><br><strong>THE END </strong><br><br>"+
+      "Game results<br>"+
+
+      "<strong>Asteroid impact:</strong> Avoided.<br>"+
+      "<strong>% of population killed by the impact of the asteroid:</strong> 0% <br>"+
+      "<strong>Social outcome:</strong> "+ socialResponse +" <br>" +
+      "<strong>Side effects:</strong> "+ this.sideEffects +" <br><br>" +
+      "Today's game is over, but tomorrow you will be able to access the same link to see the global statistics of the day and replay with a different asteroid. <br>"+
+      "<br><strong>Thank you for playing!</strong>";
+
+    }
+    else{
+      this.parsedText=this.parsedText+
       "<br><br><strong>THE END </strong><br><br>"+
         "Game results<br>"+
 
         "<strong>Asteroid impact:</strong> Impacted.<br>"+
         "<strong>Ecological outcome:</strong> Destruction of marine ecosystem<br>"+
-        "<strong>% of population killed by the impact:</strong> "+ totalDeaths + "% of affected coastal areas <br>"+
-        "<strong>Social response:</strong> "+ socialResponseImpact +" <br><br>" +
+        "<strong>% of population killed by the impact  of the asteroid:</strong> "+ totalDeaths + "% of affected coastal areas <br>"+
+        "<strong>Social response:</strong> "+ socialResponseImpact +" <br>" +
+        "<strong>Side effects:</strong> "+ this.sideEffects +" <br><br>" +
         "Today's game is over, but tomorrow you will be able to access the same link to see the global statistics of the day and replay with a different asteroid. <br>"+
         "<br><strong>Thank you for playing!</strong>";
-
     }
-    
+
+
   }
 
   parseTextOfQuestion(text:any):any{
@@ -349,6 +423,9 @@ export class QuestionsComponent implements OnInit {
     if(this.questionID == 2 || this.questionID == 3 || this.questionID == 8  ){
       this.socialProb=this.optionSelected.socialProb;
     }
+    if(this.questionID == 5 || this.questionID == 12){
+      this.deflectMethod=this.optionSelected.method;
+    }
 
     if(this.questionID == 10 || this.questionID == 11 || this.questionID == 15 ||  
       this.questionID == 13 || this.questionID == 14 || this.questionID == 16){
@@ -400,7 +477,7 @@ export class QuestionsComponent implements OnInit {
               
     if(optionSelected.nextID!=questionID){
       if(this.efficacy !=undefined){
-        this.currentColProb=this.currentColProb-this.deflectMethods[this.efficacy] * this.deflectMethods[this.optionSelected.threshold];
+        this.currentColProb=this.currentColProb*(1-this.deflectMethods[this.optionSelected.threshold]* this.deflectMethods[this.efficacy]);
       }
       let answer:Answer= {
         "expireAt":tomorrow,
@@ -412,7 +489,10 @@ export class QuestionsComponent implements OnInit {
         "day": day, 
         "currentColProb":this.currentColProb,
         "socialProb":this.socialProb,
-        "civilProtec":this.civilProtec,        
+        "civilProtec":this.civilProtec,
+        "deflectMethod":this.deflectMethod,
+        "deflectSuccess":this.deflectSuccess,
+        "sideEffects":this.sideEffects,           
       }
       this.answerService.addAnswer(answer).subscribe(
         response => {
