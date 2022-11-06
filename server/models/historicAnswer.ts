@@ -10,7 +10,10 @@ const historicAnswerSchema = new Schema<IAnswer>({
     day:Number,
     socialProb:[Number],
     currentColProb:Number,
-    civilProtec:String,
+    civilProtec: String,
+    deflectMethod: String,
+    deflectSuccess:Boolean,
+    sideEffects:String,
 }
 );
 
@@ -21,10 +24,13 @@ interface IAnswer extends Document {
     optionID: number,
     nextID:number,
     time:number,
-    day:number;
+    day:number,
     socialProb:number[],
     currentColProb:number,
     civilProtec:string,
+    deflectMethod: string,
+    deflectSuccess:boolean,
+    sideEffects:string,
 }
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
