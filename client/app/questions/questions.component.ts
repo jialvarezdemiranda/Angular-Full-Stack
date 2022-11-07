@@ -85,131 +85,131 @@ export class QuestionsComponent implements OnInit {
           this.deflectMethods["dPc_GT_reduced"]=x.dPc_GT_reduced;
 
 
-        });
-    this.route.params.subscribe( params => 
-      {
-        this.optionNotChosen=false;
-        this.questionID = params["id"];
-        this.nextQuestion=this.questionID;
-        this.question= this.questionService.getQuestion(this.questionID);
-        this.question.subscribe((x) => {
-          this.text=x.question;
-          this.title=x.title;
-          this.parsedText=this.parseTextOfQuestion(this.text);
-          this.img=x.img;
-          if(this.img!=undefined){
-            this.hasImage=true;
-          }
-          this.options=x.options;
-          if(x.endNode!=undefined)
-            this.endNode=!x.endNode; // We invert so we do not have to change the angular if
-          else
-            this.endNode=true;
-          
-          if(this.questionID != 1 && this.questionID != 4 ){
-            this.deviceID=this.getDeviceId();
-            this.answerService.getLastAnswer(this.deviceID).subscribe(
-              response => {
-                if(response.questionID!=undefined){
-                  this.currentColProb= response.currentColProb;      
-                  if(this.parsedText!= undefined){
-                    this.currentColProb=Math.round((this.currentColProb + Number.EPSILON) * 100) / 100
-                    this.parsedText=this.parsedText.replace("{{currentColProb}}", this.currentColProb);
-                  }
-                  this.socialProb= response.socialProb;
-                  this.civilProtec= response.civilProtec;
-                  this.deflectMethod=response.deflectMethod;
-                  this.sideEffects=response.sideEffects;
-                  if(this.questionID == 10 || this.questionID == 13 ){
 
-                    let text= "Time flew by as you and your team worked tirelessly to put the plan into action. Against the expectations of the more pessimistic members of the group, you manage to complete your deflection mechanism on time."+ 
-                    " You successfully apply the deflection technique, which according to the theoretical effectiveness you had estimated allows you to approximate the new collision probability as <strong>" + this.currentColProb + "</strong>.";
-                    this.deflectSuccess=true;
-
-                    
-
-                    if(this.deflectMethod==="NED"){
-                      let valueRolled=Math.random();
-                      console.log("Value rolled: " + valueRolled);
-                      console.log("To beat 0.5");
-                      if(valueRolled >= 0.5){
-                        text=text+ 
-                        "<br><br>After detonating the nuclear explosive device, you proceed to perform a integrity analysis of the asteroid and estimate the extent of the radiation to check for the possible side effects you had estimated. Unfortunately, it seems that your initial calculations on the extent of the radiation were slightly wrong, and you estimate that a small part of the radiation will reach and contaminate part of the earth's surface. Not only that, but by monitoring the integrity of the asteroid you have found that several fragments of the rock have broken off in different directions due to the explosion. Right now you are not able to determine the trajectory of all the fragments and you can only wait to receive news of whether any of these pieces cause any damage.";
-                        this.sideEffects="Nuclear contamination and damage to be assessed by possible asteroid fragments impacting the Earth.";
-                      }
-                      else{
-                        text=text+
-                        "<br><br>After detonating the nuclear explosive device, you proceed to perform a integrity analysis of the asteroid and estimate the extent of the radiation to check for the possible side effects you had estimated. Fortunately, the results of these studies show that there is no imminent danger of fragmentation and that the radiation levels do not pose a danger to Earth.";
-                      }
+      this.route.params.subscribe( params => 
+        {
+          this.optionNotChosen=false;
+          this.questionID = params["id"];
+          this.nextQuestion=this.questionID;
+          this.question= this.questionService.getQuestion(this.questionID);
+          this.question.subscribe((q) => {
+            this.text=q.question;
+            this.title=q.title;
+            this.parsedText=this.parseTextOfQuestion(this.text);
+            this.img=q.img;
+            if(this.img!=undefined){
+              this.hasImage=true;
+            }
+            this.options=q.options;
+            if(q.endNode!=undefined)
+              this.endNode=!q.endNode; // We invert so we do not have to change the angular if
+            else
+              this.endNode=true;
+            
+            if(this.questionID != 1 && this.questionID != 4 ){
+              this.deviceID=this.getDeviceId();
+              this.answerService.getLastAnswer(this.deviceID).subscribe(
+                response => {
+                  if(response.questionID!=undefined){
+                    this.currentColProb= response.currentColProb;      
+                    if(this.parsedText!= undefined){
+                      this.currentColProb=Math.round((this.currentColProb + Number.EPSILON) * 100) / 100
+                      this.parsedText=this.parsedText.replace("{{currentColProb}}", this.currentColProb);
                     }
-                
-                    if(this.deflectMethod==="KI"){
-                      let valueRolled=Math.random();
-                      console.log("Value rolled: " + valueRolled);
-                      console.log("To beat 0.4");
-                      if(valueRolled >= 0.4){
-                        text=text+
-                        "<br><br>After successfully colliding the impactor with the asteroid, you proceed to check the integrity of the rock to determine if there is a danger of fragmentation. Unfortunately, you have found that several fragments of the rock have broken off in different directions due to the heavy collision of the asteroid with the impactor.  At this time you are unable to determine the trajectory of all the fragments and can only wait to hear if any of these pieces cause any damage.";
-                        this.sideEffects="Damage to be assessed by possible asteroid fragments impacting the Earth.";
+                    this.socialProb= response.socialProb;
+                    this.civilProtec= response.civilProtec;
+                    this.deflectMethod=response.deflectMethod;
+                    this.sideEffects=response.sideEffects;
+                    if(this.questionID == 10 || this.questionID == 13 ){
+
+                      let text= "Time flew by as you and your team worked tirelessly to put the plan into action. Against the expectations of the more pessimistic members of the group, you manage to complete your deflection mechanism on time."+ 
+                      " You successfully apply the deflection technique, which according to the theoretical effectiveness you had estimated allows you to approximate the new collision probability as <strong>" + this.currentColProb + "</strong>.";
+                      this.deflectSuccess=true;
+
+                      
+
+                      if(this.deflectMethod==="NED"){
+                        let valueRolled=Math.random();
+                        console.log("Value rolled: " + valueRolled);
+                        console.log("To beat 0.5");
+                        if(valueRolled >= 0.5){
+                          text=text+ 
+                          "<br><br>After detonating the nuclear explosive device, you proceed to perform a integrity analysis of the asteroid and estimate the extent of the radiation to check for the possible side effects you had estimated. Unfortunately, it seems that your initial calculations on the extent of the radiation were slightly wrong, and you estimate that a small part of the radiation will reach and contaminate part of the earth's surface. Not only that, but by monitoring the integrity of the asteroid you have found that several fragments of the rock have broken off in different directions due to the explosion. Right now you are not able to determine the trajectory of all the fragments and you can only wait to receive news of whether any of these pieces cause any damage.";
+                          this.sideEffects="Nuclear contamination and damage to be assessed by possible asteroid fragments impacting the Earth.";
+                        }
+                        else{
+                          text=text+
+                          "<br><br>After detonating the nuclear explosive device, you proceed to perform a integrity analysis of the asteroid and estimate the extent of the radiation to check for the possible side effects you had estimated. Fortunately, the results of these studies show that there is no imminent danger of fragmentation and that the radiation levels do not pose a danger to Earth.";
+                        }
                       }
-                      else{
-                        text=text+
-                        "<br><br>After successfully colliding the impactor with the asteroid, you proceed to check the integrity of the rock to determine if there is a danger of fragmentation. To your relief, the results of this study show that there is no imminent danger of shattering."
+                  
+                      if(this.deflectMethod==="KI"){
+                        let valueRolled=Math.random();
+                        console.log("Value rolled: " + valueRolled);
+                        console.log("To beat 0.4");
+                        if(valueRolled >= 0.4){
+                          text=text+
+                          "<br><br>After successfully colliding the impactor with the asteroid, you proceed to check the integrity of the rock to determine if there is a danger of fragmentation. Unfortunately, you have found that several fragments of the rock have broken off in different directions due to the heavy collision of the asteroid with the impactor.  At this time you are unable to determine the trajectory of all the fragments and can only wait to hear if any of these pieces cause any damage.";
+                          this.sideEffects="Damage to be assessed by possible asteroid fragments impacting the Earth.";
+                        }
+                        else{
+                          text=text+
+                          "<br><br>After successfully colliding the impactor with the asteroid, you proceed to check the integrity of the rock to determine if there is a danger of fragmentation. To your relief, the results of this study show that there is no imminent danger of shattering."
+                        }
                       }
+                      this.parsedText=text + this.parsedText;
                     }
-                    this.parsedText=text + this.parsedText;
+                    else{
+                      this.deflectSuccess=response.deflectSuccess;
+                    }
                   }
-                  else{
-                    this.deflectSuccess=response.deflectSuccess;
+                  if(this.questionID == 6 || this.questionID == 7){
+                    this.parsedText="";
+                    this.finalNodeSocialText();
                   }
                 }
-                if(this.questionID == 6 || this.questionID == 7){
-                  this.parsedText="";
-                  this.finalNodeSocialText();
-                }
-              }
-            );
-          }
-          else{
-            if(this.questionID == 1){
-              this.currentColProb=this.asteroidProperties['P0'];
-              this.socialProb= [0.5,0.5,0.5,0];
-              this.civilProtec= "notSet";
-              this.deflectMethod="notSet";
-              this.sideEffects="None";
-              this.deflectSuccess=false;
-              if(this.options!=undefined){
-                for (let i = 0; i < this.options?.length; i++) {
-                  this.asteroidProperties["waitTime"]= this.asteroidProperties["dT"]-this.asteroidProperties["dT_reduced"];
-                  this.options[i].text=this.options[i].text.replace("{{waitTime}}", this.asteroidProperties["waitTime"]);
-                }
-              }
+              );
             }
             else{
-              let variability= Math.random()*0.1;
-              let sign=Math.random();
-              if(sign>=0.5){
-                this.currentColProb=this.asteroidProperties['P0']+variability;
+              if(this.questionID == 1){
+                this.currentColProb=this.asteroidProperties['P0'];
+                this.socialProb= [0.5,0.5,0.5,0];
+                this.civilProtec= "notSet";
+                this.deflectMethod="notSet";
+                this.sideEffects="None";
+                this.deflectSuccess=false;
+                if(this.options!=undefined){
+                  for (let i = 0; i < this.options?.length; i++) {
+                    this.asteroidProperties["waitTime"]= this.asteroidProperties["dT"]-this.asteroidProperties["dT_reduced"];
+                    this.options[i].text=this.options[i].text.replace("{{waitTime}}", this.asteroidProperties["waitTime"]);
+                  }
+                }
               }
               else{
-                this.currentColProb=this.asteroidProperties['P0']-variability;
-              }
-              this.socialProb= [0.5,0.5,0.5,0];
-              this.civilProtec= "notSet";
-              this.deflectMethod="notSet";
-              this.sideEffects="None";
-              this.deflectSuccess=false;
-              if(this.parsedText!=undefined){
-                this.currentColProb=Math.round((this.currentColProb + Number.EPSILON) * 100) / 100 // round two decimals
-                this.parsedText=this.parsedText.replace("{{currentColProb}}", this.currentColProb);
+                let variability= Math.random()*0.1;
+                let sign=Math.random();
+                if(sign>=0.5){
+                  this.currentColProb=this.asteroidProperties['P0']+variability;
+                }
+                else{
+                  this.currentColProb=this.asteroidProperties['P0']-variability;
+                }
+                this.socialProb= [0.5,0.5,0.5,0];
+                this.civilProtec= "notSet";
+                this.deflectMethod="notSet";
+                this.sideEffects="None";
+                this.deflectSuccess=false;
+                if(this.parsedText!=undefined){
+                  this.currentColProb=Math.round((this.currentColProb + Number.EPSILON) * 100) / 100 // round two decimals
+                  this.parsedText=this.parsedText.replace("{{currentColProb}}", this.currentColProb);
+                }
               }
             }
-          }
 
-        });
-      }); 
+          });
+        }); 
       
-     
+    }); 
   }
 
   finalNodeSocialText(){
