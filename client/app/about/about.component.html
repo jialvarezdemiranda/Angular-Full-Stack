@@ -8,13 +8,15 @@
       Will you be able to prevent a global catastrophe? <br><br>
       
       <strong>Clarification: Part of the results of this game are determined by probabilities and random factors, so two players making the same decisions will not necessarily obtain the same outcome.</strong>
-    </p> <br><br>
+    </p> <br>
     
 
-  <h4 class="text-center">Global statistics of the previous day</h4>
-  <div class="text-center">
-    <img src="../../assets/Statistics.png" class="rounded">
-  </div>
+  <h4 class="text-center">Global statistics of the previous day</h4> <br>
+  <div class="row">
+    <img src="../../assets/MethodComparison.png" class="rounded">
+    <img src="../../assets/CommunicationComparison.png" class="rounded">
+    <img src="../../assets/ProtectionComparison.png" class="rounded">
+  </div> <br>
   <button *ngIf="!hasPlayedBefore" type="button" class="btn btn-primary btn-lg btn-block" [routerLink]="['/questions',1]">Start Playing</button>
   <button *ngIf="hasPlayedBefore" type="button"  class="btn btn-primary btn-lg btn-block" [routerLink]="['/questions',nextID]">Continue Playing</button>
  
