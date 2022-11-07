@@ -13,9 +13,12 @@
 
   <h4 class="text-center">Global statistics of the previous day</h4> <br>
   <div class="row">
-    <img src="../../assets/MethodComparison.png" class="rounded">
-    <img src="../../assets/CommunicationComparison.png" class="rounded">
-    <img src="../../assets/ProtectionComparison.png" class="rounded">
+    <div class="col-4"><img src="../../assets/MethodComparison.png" class="rounded"></div>
+    <div class="col-4"><img src="../../assets/CommunicationComparison.png" class="rounded"></div>
+    <div class="col-4"><img src="../../assets/ProtectionComparison.png" class="rounded"></div>
+    
+    
+    
   </div> <br>
   <button *ngIf="!hasPlayedBefore" type="button" class="btn btn-primary btn-lg btn-block" [routerLink]="['/questions',1]">Start Playing</button>
   <button *ngIf="hasPlayedBefore" type="button"  class="btn btn-primary btn-lg btn-block" [routerLink]="['/questions',nextID]">Continue Playing</button>
