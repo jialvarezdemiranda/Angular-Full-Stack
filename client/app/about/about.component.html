@@ -1,6 +1,6 @@
-<div class="card">
-  <h4 class="card-header">Welcome to Stardust-R planetary defence game</h4>
-  <div class="card-body">
+
+  <h4 class="text-center">Welcome to Stardust-R planetary defence game</h4> <br>
+ 
     <p>As a member of the Planetary Defense Office, you never expected to make such a monumental discovery. But that's exactly what happened when you found an asteroid that is on a collision course with Earth.    
 
       This asteroid is a threat to life on our planet, and you are working tirelessly to find a way to stop it. It's a daunting task, but you hope to find a solution before it's too late. 
@@ -8,9 +8,13 @@
       Will you be able to prevent a global catastrophe? <br><br>
       
       <strong>Clarification: Part of the results of this game are determined by probabilities and random factors, so two players making the same decisions will not necessarily obtain the same outcome.</strong>
-    </p>
-    <button *ngIf="!hasPlayedBefore" type="button" class="btn btn-primary btn-lg btn-block" [routerLink]="['/questions',1]">Start Playing</button>
-    <button *ngIf="hasPlayedBefore" type="button"  class="btn btn-primary btn-lg btn-block" [routerLink]="['/questions',nextID]">Continue Playing</button>
+    </p> <br><br>
+    
+
+  <h4 class="text-center">Global statistics of the previous day</h4>
+  <div class="text-center">
+    <img src="../../assets/Statistics.png" class="rounded">
   </div>
-  
-</div>
+  <button *ngIf="!hasPlayedBefore" type="button" class="btn btn-primary btn-lg btn-block" [routerLink]="['/questions',1]">Start Playing</button>
+  <button *ngIf="hasPlayedBefore" type="button"  class="btn btn-primary btn-lg btn-block" [routerLink]="['/questions',nextID]">Continue Playing</button>
+ 
