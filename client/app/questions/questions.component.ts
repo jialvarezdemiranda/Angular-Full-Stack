@@ -181,6 +181,7 @@ export class QuestionsComponent implements OnInit {
                 if(this.options!=undefined){
                   for (let i = 0; i < this.options?.length; i++) {
                     this.asteroidProperties["waitTime"]= this.asteroidProperties["dT"]-this.asteroidProperties["dT_reduced"];
+                    this.asteroidProperties["waitTime"]=Math.round((this.asteroidProperties["waitTime"] + Number.EPSILON) * 100) / 100 // round two decimals
                     this.options[i].text=this.options[i].text.replace("{{waitTime}}", this.asteroidProperties["waitTime"]);
                   }
                 }
