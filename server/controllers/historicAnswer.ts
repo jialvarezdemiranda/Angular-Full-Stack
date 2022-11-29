@@ -1,13 +1,14 @@
 import HistoricAnswer from '../models/historicAnswer';
 import BaseCtrl from './base';
 import { Request, Response } from 'express';
+import mongoose from 'mongoose';
 
 class HistoricAnswerCtrl extends BaseCtrl {
   model = HistoricAnswer;
 
-   getLastAnswer = async (req: Request, res: Response) => {
+  getLastAnswer = async (req: Request, res: Response) => {
     try {
-      const answers = await this.model.find({ deviceID: req.params.id }).sort({time:-1}).limit(1);
+      const answers = await this.model.find({ deviceID: req.params.id }).sort({ time: -1 }).limit(1);
       return res.status(200).json(answers[0]);
     } catch (err: any) {
       return res.status(500).json({ error: err.message });
@@ -34,4 +35,4 @@ class HistoricAnswerCtrl extends BaseCtrl {
 
 }
 
- export default HistoricAnswerCtrl;
+export default HistoricAnswerCtrl;

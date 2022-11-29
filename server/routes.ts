@@ -49,6 +49,9 @@ const setRoutes = (app: Application): void => {
   router.route('/answer/:id').put(answerCtrl.update);
   router.route('/answer/:id').delete(answerCtrl.delete);
 
+  router.route('/sumCountsDecision').get(answerCtrl.sumCountsDecision);
+  router.route('/countNumDeflectOutcome').get(answerCtrl.countNumDeflectOutcome);
+
   // historicAnswer
   router.route('/historicAnswers').get(historicAnswerCtrl.getAll);
   router.route('/historicAnswers/count').get(historicAnswerCtrl.count);

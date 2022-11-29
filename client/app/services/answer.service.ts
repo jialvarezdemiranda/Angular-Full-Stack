@@ -33,4 +33,12 @@ export class AnswerService {
     return this.http.delete(`/api/answer/${answer._id}`, { responseType: 'text' });
   }
 
+  sumCountsDecision(questionID:number|undefined, day:number): Observable<[{_id:number, count:number}]> { 
+    return this.http.get<[{_id:number, count:number}]>(`/api/sumCountsDecision?questionID=${questionID}&day=${day}`);
+  }
+
+  countNumDeflectOutcome(questionID:number|undefined, day:number, outcome:number): Observable<[{_id:string, count:number}]> { 
+    return this.http.get<[{_id:string, count:number}]>(`/api/countNumDeflectOutcome?questionID=${questionID}&day=${day}&outcome=${outcome}`);
+  }
+
 }

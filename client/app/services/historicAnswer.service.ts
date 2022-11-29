@@ -32,5 +32,4 @@ export class HistoricAnswerService {
   deleteAnswer(answer: Answer): Observable<any> {
     return this.http.delete(`/api/historicAnswer/${answer._id}`, { responseType: 'text' });
   }
-
 }

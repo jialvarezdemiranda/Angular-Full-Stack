@@ -13,6 +13,62 @@ class AnswerCtrl extends BaseCtrl {
       return res.status(500).json({ error: err.message });
     }
   };
+  sumCountsDecision = async (req: Request, res: Response) => {
+    try {
+      const query = [{
+        // @ts-ignore
+        $match: { questionID: parseInt(req?.query?.questionID) }
+      },
+      {
+        //@ts-ignore
+        $match: { day: parseInt(req.query.day) }
+      },
+      {
+        $group: {
+          _id: '$optionID', count: { $sum: 1 }
+        }
+      }];
+      console.log(JSON.stringify(query));
+
+
+      const answers = await this.model.aggregate(query);
+
+      return res.status(200).json(answers);
+    } catch (err: any) {
+      return res.status(500).json({ error: err.message });
+    }
+  };
+
+  countNumDeflectOutcome = async (req: Request, res: Response) => {
+    try {
+      const query= [
+
+        {
+          //@ts-ignore
+          $match: { questionID: parseInt(req.query.questionID) }
+        },
+        {
+          //@ts-ignore
+          $match: { day: parseInt(req.query.day) }
+        },
+        {
+          //@ts-ignore
+          $match: { nextID: parseInt(req.query.outcome) }
+        },
+        {
+          $group: {
+            _id: '$deflectMethod', count: { $sum: 1 }
+          }
+        },
+
+      ]
+      const answers = await this.model.aggregate(query);
+
+      return res.status(200).json(answers);
+    } catch (err: any) {
+      return res.status(500).json({ error: err.message });
+    }
+  };
 
 }
 
