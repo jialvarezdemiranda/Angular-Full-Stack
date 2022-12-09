@@ -29,6 +29,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { AnswerService } from './services/answer.service';
 import { HistoricAnswerService } from './services/historicAnswer.service';
 import { AsteroidService } from './services/asteroid.service';
+import { StatsComponent } from './stats/stats.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { AsteroidService } from './services/asteroid.service';
     NotFoundComponent,
     QuestionsComponent,
     WaitingComponent,
+    StatsComponent,
   ],
   imports: [
     AppRoutingModule,

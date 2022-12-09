@@ -1,26 +1,33 @@
-
-<h4>{{title}}</h4> <br>
-<div *ngIf="hasImage" class="text-center">
-  <img src="{{img}}" class="rounded">
-</div>
-<br>
-<div class="newlines" [innerHTML]="this.parsedText"></div>
-<br>  
-<h5 *ngIf="endNode">What are you going to do?</h5>
-<div *ngFor="let option of options">
-
-  <div class="form-check">
-    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault + option.optionID" (click)="setAction(option)">
-    <label class="form-check-label" for="flexRadioDefault + option.optionID">
-      {{option.text}}
-    </label>
-  </div>
+    <h4>{{title}}</h4> <br>
+    <div *ngIf="hasImage" class="text-center">
+      <img src="{{img}}" class="rounded">
+    </div>
     <br>
-</div>
+    <div class="newlines" [innerHTML]="this.parsedText"></div>
+    <br>  
+    <h5 *ngIf="endNode">What are you going to do?</h5>
+    <div *ngFor="let option of options">
+
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault + option.optionID" (click)="setAction(option)">
+        <label class="form-check-label" for="flexRadioDefault + option.optionID">
+          {{option.text}}
+        </label>
+      </div>
+        <br>
+    </div>
 
 
-<div *ngIf="optionNotChosen"><h6>Please, select one action before proceeding.</h6> <br></div>
-<button *ngIf="endNode" type="button" class="btn btn-primary btn-lg" [routerLink]="['/questions',nextQuestion]" (click)="saveAnswer(optionSelected,questionID,deviceID)">Proceed</button>
+    <div *ngIf="optionNotChosen"><h6>Please, select one action before proceeding.</h6> <br></div>
+    <button *ngIf="endNode" type="button" class="btn btn-primary btn-lg" [routerLink]="['/questions',nextQuestion]" (click)="saveAnswer(optionSelected,questionID,deviceID)">Proceed</button>
+  
+  <div *ngIf="!endNode">
+    <app-stats></app-stats>
+  </div>
+  
+
+
+
 
 
 
