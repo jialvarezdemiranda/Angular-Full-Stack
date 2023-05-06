@@ -4,12 +4,20 @@ services:
     container_name: afs
     restart: always
     build: .
+    environment:
+      - NODE_ENV=development
+    command: npm run dev
     ports:
+      - "8842:4200" # Expose the default Angular development server port
       - "8830:3000"
     links:
       - mongo
+    volumes:
+      - ./:/usr/src/app/
+      - /usr/src/app/node_modules
   mongo:
     container_name: mongo
+    user: "${USER_ID}:${GROUP_ID}"
     image: mongo
     volumes:
       - ./dataDB:/data/db

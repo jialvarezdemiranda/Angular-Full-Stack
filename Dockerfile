@@ -7,5 +7,5 @@ COPY . .
 ENV MONGODB_URI mongodb://mongo:27017/angularfullstack
 #RUN npm run builddev
 RUN npm run build
-EXPOSE 3000
+EXPOSE 4200 3000
 CMD [ "npm", "start" ]

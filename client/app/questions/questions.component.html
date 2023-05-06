@@ -1,6 +1,6 @@
-    <h4>{{title}}</h4> <br>
+    <!-- <h4>{{title}}</h4> <br>
     <div *ngIf="hasImage" class="text-center">
-      <img src="{{img}}" class="rounded">
+      <img src="{{img}}" class="rounded" style="width: 100%">
     </div>
     <br>
     <div class="newlines" [innerHTML]="this.parsedText"></div>
@@ -24,9 +24,33 @@
   <div *ngIf="!endNode">
     <app-stats></app-stats>
   </div>
-  
+   -->
 
+<h4>{{title}}</h4>
+<br>
+<div *ngIf="hasImage" class="text-center">
+  <img src="{{img}}" class="rounded" style="width: 100%">
+</div>
+<br>
+<div class="newlines" [innerHTML]="this.parsedText"></div>
+<br>
+<h5 *ngIf="endNode">What are you going to do?</h5>
+<div *ngFor="let option of options" class="mb-2">
+  <button type="button" [ngClass]="{'btn-primary': optionSelected !== option, 'btn-success': optionSelected === option}" class="btn btn-block" (click)="setAction(option)">{{option.text}}</button>
+</div>
 
+<div *ngIf="optionNotChosen">
+  <h6>Please, select one action before proceeding.</h6>
+  <br>
+</div>
+<hr>
+<button *ngIf="endNode" type="button" class="btn btn-lg" [routerLink]="['/questions',nextQuestion]" (click)="saveAnswer(optionSelected,questionID,deviceID)" style="font-size: 24px; margin: 20px 0; width: 100%; background-color: #f39c12; color: white;">Proceed</button>
+
+<div *ngIf="!endNode">
+  <app-stats></app-stats>
+</div>
+   
+   
 
 
 

@@ -9,7 +9,8 @@ import setRoutes from './routes';
 
 const app = express();
 app.set('port', (process.env.PORT || 3000));
-app.use('/', express.static(path.join(__dirname, '../public')));
+//app.use('/', express.static(path.join(__dirname, '../public')));
+app.use('/', express.static(path.join(__dirname, '../client')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 if (process.env.NODE_ENV !== 'test') {
@@ -21,7 +22,8 @@ const main = async (): Promise<any> => {
     await setMongo();
     setRoutes(app);
     app.get('/*', (req, res) => {
-      res.sendFile(path.join(__dirname, '../public/index.html'));
+//      res.sendFile(path.join(__dirname, '../public/index.html'));
+        res.sendFile(path.join(__dirname, '../client/index.html'));
     });
     app.listen(app.get('port'), () => console.log(`Angular Full Stack listening on port ${app.get('port')}`));
   } catch (err) {
